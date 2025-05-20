@@ -6,27 +6,17 @@ public class GravityManager : MonoBehaviour
 {
 
     /// <summary>
-    /// The gravitational constant
-    /// </summary>
-    readonly private float GRAVITATIONAL_CONSTANT = 6.67430e-11F;
-
-    /// <summary>
     /// The maximum distance at which an object's gravity affects a ship
     /// </summary>
+    // TODO: This should scale with planet size
     [SerializeField] private float GRAVITY_DIST_CUTOFF = 100.0f;
-
-    /// <summary>
-    /// The number of meters in a single Unity unit (ie distance from x=1 to x=2).
-    /// Based on setting one Earth diameter to 1 unit
-    /// </summary>
-    readonly private float METERS_TO_UNITS = 12756200f;
 
 
     private List<Ship> _affectedByGravity;
 
     private Vector3 CalcGravityVec(float objMass, Vector3 directionVec, float dist) {
-        dist *= METERS_TO_UNITS;
-        float accelFromGravity = GRAVITATIONAL_CONSTANT * objMass / Mathf.Pow(dist, 2);
+        dist *= Constants.METERS_TO_UNITS;
+        float accelFromGravity = Constants.GRAVITATIONAL_CONSTANT * objMass / Mathf.Pow(dist, 2);
         // Convert from m/s^2 to units/s^2
         return accelFromGravity * directionVec;
     }
