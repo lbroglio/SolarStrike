@@ -5,19 +5,21 @@ using UnityEngine;
 public class CelestialObject : MonoBehaviour
 {
     /// <summary>
-    /// The strength of the gravitational pull of this object. 
-    /// This element doesn't have any units and is given meaning by its relation 
-    /// to the gravity stength of other objects. 
-    /// </summary>
-    [SerializeField] private float gravityStrength = 1.0f;
+    /// The mass of Earth in Kilograms
+    /// </summary> 
+    readonly private static float MASS_OF_EARTH = 5972000000000000000000000f;
+
+
 
     /// <summary>
-    /// The strength of the gravitational pull of this object. 
-    /// This element doesn't have any units and is given meaning by its relation 
-    /// to the gravity stength of other objects. 
+    /// The mass of this object in number of Earth Masses it is.
+    [SerializeField] private float earthMasses = 1.0f;
+
+    /// <summary>
+    /// The mass of thie celestial object measured in kilograms
     /// </summary>
-    public float GravityStrength {
-        get { return gravityStrength; }
+    public float Mass {
+        get { return earthMasses * MASS_OF_EARTH; }
     }
 
     // Start is called before the first frame update

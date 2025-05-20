@@ -10,7 +10,10 @@ public static class Utils
     /// <param name="from">The transform of the GameObject the Vector should point from</param>
     /// <param name="to"The transform of the GameObject the Vector should point to></param>
     /// <returns>Unit vector which leads from one unity object to another</returns>
-    public static Vector3 GetFromToVector(Transform from, Transform to){
-
+    public static Vector3 GetFromToVector(Transform from, Transform to)
+    {
+        Vector3 pointedVec = to.localPosition - from.localPosition;
+        pointedVec.Normalize();
+        return pointedVec;
     }
 }
