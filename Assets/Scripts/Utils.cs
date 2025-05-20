@@ -12,7 +12,7 @@ public static class Utils
     /// <returns>Unit vector which leads from one unity object to another</returns>
     public static Vector3 GetFromToVector(Transform from, Transform to)
     {
-        Vector3 pointedVec = to.localPosition - from.localPosition;
+        Vector3 pointedVec = from.localPosition - to.localPosition;
         pointedVec.Normalize();
         return pointedVec;
     }

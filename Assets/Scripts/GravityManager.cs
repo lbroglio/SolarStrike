@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
+
+    /// <summary>
+    /// The gravitational constant
+    /// </summary>
+    readonly private float GRAVITATIONAL_CONSTANT = 6.67430e-11F;
+
     /// <summary>
     /// The maximum distance at which an object's gravity affects a ship
     /// </summary>
-    [SerializeField] private float GRAVITY_DIST_CUTOFF = 100.0f;  
+    [SerializeField] private float GRAVITY_DIST_CUTOFF = 100.0f;
+
+    /// <summary>
+    /// The number of meters in a single Unity unit (ie distance from x=1 to x=2).
+    /// Based on setting one Earth diameter to 1 unit
+    /// </summary>
+    readonly private float METERS_TO_UNITS = 12756200f;
+
 
     private List<Ship> _affectedByGravity;
 
-    private static Vector2 CalcGravityVec(float objMass, Vector3 directionVec, float dist) {
-        
+    private Vector3 CalcGravityVec(float objMass, Vector3 directionVec, float dist) {
+        dist *= METERS_TO_UNITS;
+        float accelFromGravity = GRAVITATIONAL_CONSTANT * objMass / Mathf.Pow(dist, 2);
+        // Convert from m/s^2 to units/s^2
+        return accelFromGravity * directionVec;
     }
 
     /// <summary>
@@ -38,8 +54,10 @@ public class GravityManager : MonoBehaviour
         CelestialObject[] celestialObjects = FindObjectsOfType<CelestialObject>();
 
         // For every ship
-        foreach (Ship s in _affectedByGravity){
-            Vector2 gravityVec = new Vector2();
+        foreach (Ship s in _affectedByGravity)
+        {
+            // Vector totaling all gravity influence
+            Vector3 gravityVec = new Vector2();
             // For every gravitational object
             foreach (CelestialObject co in celestialObjects)
             {
@@ -47,9 +65,13 @@ public class GravityManager : MonoBehaviour
                 float dist = Vector3.Distance(s.transform.localPosition, co.transform.localPosition);
                 if (dist < GRAVITY_DIST_CUTOFF)
                 {
-                    gravityVec += 
+                    Vector3 direcVec = Utils.GetFromToVector(co.transform, s.transform);
+                    gravityVec += CalcGravityVec(co.Mass, direcVec, dist);
                 }
             }
+
+            // Change the ship's velocity by the gravity
+            s.VelocityVector += gravityVec * Time.deltaTime;
         }
     }
 }
