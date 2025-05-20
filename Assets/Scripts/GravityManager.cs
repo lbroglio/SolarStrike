@@ -15,7 +15,7 @@ public class GravityManager : MonoBehaviour
     private List<Ship> _affectedByGravity;
 
     private Vector3 CalcGravityVec(float objMass, Vector3 directionVec, float dist) {
-        dist *= Constants.METERS_TO_UNITS;
+        dist *= Constants.UNITS_TO_METERS;
         float accelFromGravity = Constants.GRAVITATIONAL_CONSTANT * objMass / Mathf.Pow(dist, 2);
         // Convert from m/s^2 to units/s^2
         return accelFromGravity * directionVec;
