@@ -90,11 +90,11 @@ public class Ship : MonoBehaviour
         }
 
         // Rotate a fixed amount
-        if (Input.GetKeyDown(KeyCode.D) && _angularVelocity == 0)
+        if (Input.GetKeyDown(KeyCode.D) && Mathf.Abs(_angularVelocity) < 0.1f)
         {
             autoRotateAmount = -45f;
         }
-        else if(Input.GetKeyDown(KeyCode.A) && _angularVelocity == 0)
+        else if(Input.GetKeyDown(KeyCode.A) && Mathf.Abs(_angularVelocity) < 0.1f)
         {
             autoRotateAmount = 45f;
         }
@@ -164,6 +164,12 @@ public class Ship : MonoBehaviour
                 accelFromBurn -= 0.5f;
                 lastUpdateTime = Time.time;
             }
+        }
+
+        // TODO: This should orbit you around the closest body
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            
         }
 
         // Handle "autorotation"
